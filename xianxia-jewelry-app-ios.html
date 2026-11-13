@@ -578,6 +578,11 @@ body::after{
   width:100%;display:block;aspect-ratio:1/1;object-fit:cover;
   background:#0c1712;
 }
+.guide-kicker{
+  position:absolute;left:22px;top:calc(58px + env(safe-area-inset-top));z-index:3;
+  font-size:9.5px;letter-spacing:.32em;color:var(--accent);
+  text-shadow:0 1px 8px rgba(0,0,0,.6);pointer-events:none;
+}
 .guide-ctrl{
   position:absolute;right:16px;bottom:16px;z-index:3;
   width:48px;height:48px;border-radius:50%;
@@ -1185,6 +1190,7 @@ body{font-family:var(--font);background:#000}
       <!-- ============ 知识 ============ -->
       <section class="screen" id="s-learn">
         <div class="guide">
+          <div class="guide-kicker">MOVE · 动字门</div>
           <video id="yogaVideo" src="./assets/yoga-guide.mp4?v=1" poster="./assets/yoga-guide.jpg" playsinline preload="metadata" loop aria-label="跟练视频"></video>
           <button class="guide-ctrl" id="yogaPlay" aria-label="播放视频">
             <svg class="ico-play" viewBox="0 0 24 24"><path d="M9 6v12l10-6z"/></svg>
@@ -1963,7 +1969,7 @@ body{font-family:var(--font);background:#000}
 /* PWA：仅 https 或本机环境注册离线缓存 */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=5').catch(function(){});
+    navigator.serviceWorker.register('./sw.js?v=6').catch(function(){});
   });
 }
 </script>
