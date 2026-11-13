@@ -568,6 +568,29 @@ body::after{
 }
 .seg button.on{background:rgba(201,167,92,0.14);color:var(--accent)}
 
+/* 动字门跟练视频 */
+.guide{
+  position:relative;margin:6px 20px 16px;
+  border-radius:18px;overflow:hidden;
+  border:1px solid var(--rule);background:#0c1712;
+}
+.guide video{
+  width:100%;display:block;aspect-ratio:4/3;object-fit:cover;
+  background:#0c1712;
+}
+.guide-play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:58px;height:58px;border-radius:50%;
+  border:1px solid rgba(201,167,92,.55);
+  background:rgba(8,19,15,.6);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);cursor:pointer;z-index:2;
+  transition:opacity .2s;
+}
+.guide-play svg{width:20px;height:20px;fill:currentColor}
+.guide-play.hide{opacity:0;pointer-events:none}
+
 .vcards{padding:0 20px}
 .vcard{
   position:relative;border-radius:16px;overflow:hidden;margin-bottom:12px;
@@ -1158,6 +1181,13 @@ body{font-family:var(--font);background:#000}
           <p>体式拆解 · 呼吸法 · 热身顺序，每集约 5 分钟</p>
         </div>
 
+        <div class="guide">
+          <video id="yogaVideo" src="./assets/yoga-guide.mp4?v=1" poster="./assets/yoga-guide.jpg" playsinline preload="metadata" loop aria-label="跟练视频"></video>
+          <button class="guide-play" id="yogaPlay" aria-label="播放跟练视频">
+            <svg viewBox="0 0 24 24"><path d="M8 4.6v14.8l12-7.4z"/></svg>
+          </button>
+        </div>
+
         <div class="seg" data-group="learn">
           <button class="on">体式拆解</button>
           <button>呼吸与热身</button>
@@ -1472,6 +1502,7 @@ body{font-family:var(--font);background:#000}
       if(name !== 'home') heroVideo.pause();
       else if(audioOn) heroVideo.play();
     }
+    if(name !== 'learn' && typeof yogaVideo !== 'undefined' && yogaVideo) yogaVideo.pause();
     $('#s-'+name).scrollTop = 0;
   }
 
@@ -1528,6 +1559,21 @@ body{font-family:var(--font);background:#000}
   document.addEventListener('touchstart', function(){
     if(heroVideo.paused){ try{ heroVideo.play().catch(function(){}); }catch(err){} }
   }, {once:true, passive:true});
+
+  /* ---------- 动字门跟练视频 ---------- */
+  var yogaVideo = $('#yogaVideo'), yogaPlay = $('#yogaPlay');
+  function syncYogaPlay(){ yogaPlay.classList.toggle('hide', !yogaVideo.paused); }
+  yogaVideo.addEventListener('play', syncYogaPlay);
+  yogaVideo.addEventListener('pause', syncYogaPlay);
+  yogaPlay.addEventListener('click', function(e){
+    e.stopPropagation();
+    if(yogaVideo.paused){
+      yogaVideo.muted = false;
+      try{ yogaVideo.play().catch(function(){}); }catch(err){}
+    } else {
+      yogaVideo.pause();
+    }
+  });
 
   /* ---------- audio ---------- */
   var ctx, master, chimeTimer, scheduleOn = false;
@@ -1910,7 +1956,7 @@ body{font-family:var(--font);background:#000}
 /* PWA：仅 https 或本机环境注册离线缓存 */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=2').catch(function(){});
+    navigator.serviceWorker.register('./sw.js?v=3').catch(function(){});
   });
 }
 </script>
