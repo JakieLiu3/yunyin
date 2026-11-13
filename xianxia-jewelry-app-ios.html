@@ -578,18 +578,27 @@ body::after{
   width:100%;display:block;aspect-ratio:1/1;object-fit:cover;
   background:#0c1712;
 }
-.guide-play{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:58px;height:58px;border-radius:50%;
-  border:1px solid rgba(201,167,92,.55);
-  background:rgba(8,19,15,.6);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+.guide-ctrl{
+  position:absolute;right:16px;bottom:16px;z-index:3;
+  width:48px;height:48px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  color:var(--accent);cursor:pointer;z-index:2;
-  transition:opacity .2s;
+  border:1px solid rgba(201,167,92,.45);
+  background:rgba(8,19,15,.58);
+  color:var(--accent);cursor:pointer;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:background .25s,color .25s,border-color .25s,box-shadow .25s,transform .18s;
+  -webkit-tap-highlight-color:transparent;
 }
-.guide-play svg{width:20px;height:20px;fill:currentColor}
-.guide-play.hide{opacity:0;pointer-events:none}
+.guide-ctrl:active{transform:scale(.94)}
+.guide-ctrl svg{width:20px;height:20px;fill:currentColor;pointer-events:none}
+.guide-ctrl .ico-pause{display:none}
+.guide-ctrl.on{
+  background:linear-gradient(135deg,#d9ba74,#b9954a);
+  color:#1b1408;border-color:transparent;
+  box-shadow:0 0 0 1px rgba(201,167,92,.35),0 0 20px rgba(201,167,92,.35);
+}
+.guide-ctrl.on .ico-play{display:none}
+.guide-ctrl.on .ico-pause{display:block}
 
 .vcards{padding:0 20px}
 .vcard{
@@ -1177,8 +1186,9 @@ body{font-family:var(--font);background:#000}
       <section class="screen" id="s-learn">
         <div class="guide">
           <video id="yogaVideo" src="./assets/yoga-guide.mp4?v=1" poster="./assets/yoga-guide.jpg" playsinline preload="metadata" loop aria-label="跟练视频"></video>
-          <button class="guide-play" id="yogaPlay" aria-label="播放跟练视频">
-            <svg viewBox="0 0 24 24"><path d="M8 4.6v14.8l12-7.4z"/></svg>
+          <button class="guide-ctrl" id="yogaPlay" aria-label="播放视频">
+            <svg class="ico-play" viewBox="0 0 24 24"><path d="M9 6v12l10-6z"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24"><rect x="8" y="6" width="3.2" height="12" rx="1.2"/><rect x="14" y="6" width="3.2" height="12" rx="1.2"/></svg>
           </button>
         </div>
 
@@ -1556,7 +1566,10 @@ body{font-family:var(--font);background:#000}
 
   /* ---------- 动字门跟练视频 ---------- */
   var yogaVideo = $('#yogaVideo'), yogaPlay = $('#yogaPlay');
-  function syncYogaPlay(){ yogaPlay.classList.toggle('hide', !yogaVideo.paused); }
+  function syncYogaPlay(){
+    yogaPlay.classList.toggle('on', !yogaVideo.paused);
+    yogaPlay.setAttribute('aria-label', yogaVideo.paused ? '播放视频' : '暂停视频');
+  }
   yogaVideo.addEventListener('play', syncYogaPlay);
   yogaVideo.addEventListener('pause', syncYogaPlay);
   yogaPlay.addEventListener('click', function(e){
@@ -1950,7 +1963,7 @@ body{font-family:var(--font);background:#000}
 /* PWA：仅 https 或本机环境注册离线缓存 */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=4').catch(function(){});
+    navigator.serviceWorker.register('./sw.js?v=5').catch(function(){});
   });
 }
 </script>
