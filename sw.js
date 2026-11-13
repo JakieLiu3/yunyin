@@ -1,5 +1,5 @@
 /* 云隐 PWA 离线缓存 */
-var CACHE = 'yunyin-v1';
+var CACHE = 'yunyin-v2';
 var CORE = [
   './xianxia-jewelry-app-ios.html',
   './manifest.webmanifest',
@@ -42,6 +42,20 @@ self.addEventListener('fetch', function(e){
   if(url.origin !== location.origin) return;
   /* 视频走网络，避免 Range 请求与缓存冲突；离线时由 poster 兜底 */
   if(/\.mp4$/.test(url.pathname)) return;
+
+  /* 页面走网络优先，保证更新即时生效，离线时回退缓存 */
+  if(req.mode === 'navigate'){
+    e.respondWith(
+      fetch(req).then(function(res){
+        if(res && res.status === 200){
+          var copy = res.clone();
+          caches.open(CACHE).then(function(c){ c.put(req, copy); });
+        }
+        return res;
+      }).catch(function(){ return caches.match(req); })
+    );
+    return;
+  }
 
   e.respondWith(
     caches.match(req).then(function(hit){
