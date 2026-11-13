@@ -570,9 +570,9 @@ body::after{
 
 /* 动字门跟练视频 */
 .guide{
-  position:relative;margin:10px 20px 16px;
-  border-radius:18px;overflow:hidden;
-  border:1px solid var(--rule);background:#0c1712;
+  position:relative;margin:14px 0 18px;
+  border-radius:0;overflow:hidden;
+  border:0;background:#0c1712;
 }
 .guide video{
   width:100%;display:block;aspect-ratio:1/1;object-fit:cover;
@@ -1968,7 +1968,7 @@ body{font-family:var(--font);background:#000}
 /* PWA：仅 https 或本机环境注册离线缓存 */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=7').catch(function(){});
+    navigator.serviceWorker.register('./sw.js?v=8').catch(function(){});
   });
 }
 </script>
