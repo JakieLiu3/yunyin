@@ -570,12 +570,12 @@ body::after{
 
 /* 动字门跟练视频 */
 .guide{
-  position:relative;margin:6px 20px 16px;
-  border-radius:18px;overflow:hidden;
-  border:1px solid var(--rule);background:#0c1712;
+  position:relative;margin:0 0 16px;
+  border-radius:0 0 22px 22px;overflow:hidden;
+  border:0;border-bottom:1px solid var(--rule);background:#0c1712;
 }
 .guide video{
-  width:100%;display:block;aspect-ratio:4/3;object-fit:cover;
+  width:100%;display:block;aspect-ratio:1/1;object-fit:cover;
   background:#0c1712;
 }
 .guide-play{
@@ -1175,12 +1175,6 @@ body{font-family:var(--font);background:#000}
 
       <!-- ============ 知识 ============ -->
       <section class="screen" id="s-learn">
-        <div class="page-head">
-          <div class="kicker">MOVE · 动字门</div>
-          <h1>先懂身体，再练体式</h1>
-          <p>体式拆解 · 呼吸法 · 热身顺序，每集约 5 分钟</p>
-        </div>
-
         <div class="guide">
           <video id="yogaVideo" src="./assets/yoga-guide.mp4?v=1" poster="./assets/yoga-guide.jpg" playsinline preload="metadata" loop aria-label="跟练视频"></video>
           <button class="guide-play" id="yogaPlay" aria-label="播放跟练视频">
@@ -1956,7 +1950,7 @@ body{font-family:var(--font);background:#000}
 /* PWA：仅 https 或本机环境注册离线缓存 */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=3').catch(function(){});
+    navigator.serviceWorker.register('./sw.js?v=4').catch(function(){});
   });
 }
 </script>
