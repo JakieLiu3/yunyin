@@ -1,5 +1,5 @@
 /* 云隐 PWA 离线缓存 */
-var CACHE = 'yunyin-v10';
+var CACHE = 'yunyin-v11';
 var CORE = [
   './xianxia-jewelry-app-ios.html',
   './manifest.webmanifest',
