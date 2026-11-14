@@ -1516,6 +1516,11 @@ body{font-family:var(--font);background:#000}
       else if(audioOn) heroVideo.play();
     }
     if(name !== 'learn' && typeof yogaVideo !== 'undefined' && yogaVideo) yogaVideo.pause();
+    /* 进入动字门时预加载一段，点播放更顺 */
+    if(name === 'learn' && typeof yogaVideo !== 'undefined' && yogaVideo && yogaVideo.preload === 'metadata'){
+      yogaVideo.preload = 'auto';
+      yogaVideo.load();
+    }
     $('#s-'+name).scrollTop = 0;
   }
 
